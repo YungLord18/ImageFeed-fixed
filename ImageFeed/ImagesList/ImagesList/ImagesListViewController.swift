@@ -45,6 +45,7 @@ extension ImagesListViewController {
             return
         }
         
+        cell.selectionStyle = .none
         cell.cellImage.image = image
         cell.dateLabel.text = dateFormatter.string(from: Date())
         
