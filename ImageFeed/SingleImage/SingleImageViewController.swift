@@ -8,6 +8,11 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
+   
+    @IBAction private func didTapBackButton() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBOutlet private var imageView: UIImageView!
     
     override func viewDidLoad() {
