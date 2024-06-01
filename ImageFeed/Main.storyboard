@@ -247,7 +247,7 @@
                                     <outlet property="delegate" destination="e5d-wv-MiJ" id="FrP-RL-Fnv"/>
                                 </connections>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISX-l9-5Gr">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ISX-l9-5Gr" userLabel="Share Button">
                                 <rect key="frame" x="182" y="829" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="DL2-9X-fDG"/>
@@ -259,7 +259,7 @@
                                     <action selector="didTapSharingButton:" destination="e5d-wv-MiJ" eventType="touchUpInside" id="BMx-q9-mIs"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jr-ZT-3WK">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jr-ZT-3WK" userLabel="Back Button">
                                 <rect key="frame" x="9" y="9" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="DhQ-dK-ByG"/>
@@ -268,7 +268,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="back_button_photo"/>
                                 <connections>
-                                    <action selector="didTapBackButton:" destination="e5d-wv-MiJ" eventType="touchUpInside" id="SGO-kc-d1G"/>
+                                    <action selector="didTapBackButton" destination="e5d-wv-MiJ" eventType="touchUpInside" id="I9U-Rd-WCe"/>
                                 </connections>
                             </button>
                         </subviews>
