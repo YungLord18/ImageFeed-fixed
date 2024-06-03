@@ -14,6 +14,9 @@ final class ProfileViewController: UIViewController {
     }
     */
     private var label: UILabel?
+    let nameLabel = UILabel()
+    let loginNameLabel = UILabel()
+    let descriptionLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +35,6 @@ final class ProfileViewController: UIViewController {
         
         //MARK: - Name Label
         
-        let nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
@@ -45,7 +47,6 @@ final class ProfileViewController: UIViewController {
         
         //MARK: - Login Name Label
         
-        let loginNameLabel = UILabel()
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
@@ -57,7 +58,6 @@ final class ProfileViewController: UIViewController {
         
         //MARK: - Description Label
         
-        let descriptionLabel = UILabel()
         descriptionLabel.text = "Hello World!"
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
@@ -84,7 +84,8 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-        label?.removeFromSuperview()
-        label = nil
+        nameLabel.removeFromSuperview()
+        loginNameLabel.removeFromSuperview()
+        descriptionLabel.removeFromSuperview()
     }
 }
