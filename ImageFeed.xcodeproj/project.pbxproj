@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		196671EB2BFBE3D500DA39EE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196671EA2BFBE3D500DA39EE /* ProfileViewController.swift */; };
+		1975F4672C1C6281009EA5DF /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1975F4662C1C6281009EA5DF /* OAuthTokenResponseBody.swift */; };
 		1981FB2C2C11D6CD006B51E6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1981FB2B2C11D6CD006B51E6 /* Constants.swift */; };
 		1981FB2E2C11FA28006B51E6 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1981FB2D2C11FA28006B51E6 /* AuthViewController.swift */; };
 		1981FB312C11FC03006B51E6 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1981FB302C11FC03006B51E6 /* WebViewViewController.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		196671EA2BFBE3D500DA39EE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		1975F4662C1C6281009EA5DF /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		1981FB2B2C11D6CD006B51E6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1981FB2D2C11FA28006B51E6 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		1981FB302C11FC03006B51E6 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				1981FB352C19D82A006B51E6 /* OAuth2Service.swift */,
 				1981FB372C19D83D006B51E6 /* OAuth2TokenStorage.swift */,
+				1975F4662C1C6281009EA5DF /* OAuthTokenResponseBody.swift */,
 			);
 			path = OAuth2;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				1981FB2E2C11FA28006B51E6 /* AuthViewController.swift in Sources */,
 				1981FB2C2C11D6CD006B51E6 /* Constants.swift in Sources */,
 				19E53C1A2C0397A0003AC9E0 /* SingleImageViewController.swift in Sources */,
+				1975F4672C1C6281009EA5DF /* OAuthTokenResponseBody.swift in Sources */,
 				1981FB312C11FC03006B51E6 /* WebViewViewController.swift in Sources */,
 				1981FB332C19BA61006B51E6 /* URLSession+data.swift in Sources */,
 				C9EF8BAE2BF4EB370098C0CE /* ImagesListCell.swift in Sources */,

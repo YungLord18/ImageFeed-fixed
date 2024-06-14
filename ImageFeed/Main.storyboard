@@ -382,7 +382,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="c9k-QA-Sqj" kind="presentation" id="JPn-qg-xAL"/>
+                        <segue destination="c9k-QA-Sqj" kind="presentation" identifier="ShowAuthenticationScreen" id="JPn-qg-xAL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RCN-qT-GDa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
