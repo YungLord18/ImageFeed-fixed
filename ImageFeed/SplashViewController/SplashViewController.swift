@@ -12,7 +12,8 @@ final class SplashViewController: UIViewController {
         if OAuth2TokenStorage.shared.token != nil {
             switchToTabBarController()
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
+            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, 
+                         sender: nil)
         }
     }
     
@@ -26,10 +27,13 @@ final class SplashViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { fatalError("Could not find window scene") }
+        guard let window = windowScene.windows.first else {
+            fatalError("Could not find a window") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
     
     private func showErrorMessage(_ message: String) {
