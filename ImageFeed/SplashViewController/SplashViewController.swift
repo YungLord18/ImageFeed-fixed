@@ -1,18 +1,19 @@
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
-    private let oauth2Service = OAuth2Service()
-    private let oauth2TokenStorage = OAuth2TokenStorage()
-    
+    private let oauth2Service = OAuth2Service.shared
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if OAuth2TokenStorage.shared.token != nil {
             switchToTabBarController()
         } else {
-            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, 
+            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier,
                          sender: nil)
         }
     }
@@ -44,7 +45,14 @@ final class SplashViewController: UIViewController {
         alert.addAction(UIAlertAction(
             title: "OK",
             style: .default))
-        self.present(alert, animated: true)
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+        if var topController = keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            topController.present(alert, animated: true)
+        }
     }
 }
 
@@ -72,10 +80,13 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(withCode: code) { [weak self] result in
+            ProgressHUD.dismiss()
             guard let self = self else { return }
             switch result {
-            case .success: self.switchToTabBarController()
-            case .failure: break
+            case .success:
+                self.switchToTabBarController()
+            case .failure:
+                self.showErrorMessage("Что-то пошло не так")
             }
         }
     }

@@ -18,14 +18,14 @@ final class AuthViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowWebViewSegueIdentifier {
-            guard
-                let webViewViewController = segue.destination as? WebViewViewController
-            else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
-            webViewViewController.delegate = self
-        } else {
+        guard segue.identifier == ShowWebViewSegueIdentifier else {
             super.prepare(for: segue, sender: sender)
+            return
         }
+        guard
+            let webViewViewController = segue.destination as? WebViewViewController
+        else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+        webViewViewController.delegate = self
     }
     
     private func setupBackButtonAppearance() {
@@ -41,23 +41,10 @@ extension AuthViewController: WebViewViewControllerDelegate {
         _ vc: WebViewViewController,
         didAuthenticateWithCode code: String
     ) {
-        vc.dismiss(animated: true)
-        
+        navigationController?.popViewController(animated: true)
+
+        ProgressHUD.animate()
         delegate?.authViewController(self, didAuthenticateWithCode: code)
-        
-        ProgressHUD.show()
-        
-        oauth2Service.fetchOAuthToken(withCode: code) { result in
-            
-            ProgressHUD.dismiss()
-            
-            switch result {
-            case .success(let token):
-                print("Авторизационный токен получен: \(token)")
-            case .failure(let error):
-                print("Ошибка получения токена: \(error.localizedDescription)")
-            }
-        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
