@@ -1,7 +1,9 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-
+    
+    private let profileService = ProfileService.shared
+    
     private var label: UILabel?
     let nameLabel = UILabel()
     let loginNameLabel = UILabel()
@@ -9,6 +11,10 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        }
         
         //MARK: - Profile Image
         
@@ -24,7 +30,6 @@ final class ProfileViewController: UIViewController {
         
         //MARK: - Name Label
         
-        nameLabel.text = "Екатерина Новикова"
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
         nameLabel.textColor = .white
@@ -36,7 +41,6 @@ final class ProfileViewController: UIViewController {
         
         //MARK: - Login Name Label
         
-        loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
         loginNameLabel.textColor = .gray
@@ -47,7 +51,6 @@ final class ProfileViewController: UIViewController {
         
         //MARK: - Description Label
         
-        descriptionLabel.text = "Hello World!"
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
         descriptionLabel.textColor = .white
@@ -67,6 +70,13 @@ final class ProfileViewController: UIViewController {
         logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor).isActive = true
         logoutButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
+    }
+    
+    private func updateProfileDetails(profile: Profile?) {
+        guard let profile = profile else { return }
+        self.nameLabel.text = profile.name
+        self.loginNameLabel.text = profile.loginName
+        self.descriptionLabel.text = profile.bio
     }
     
     //MARK: - Private Func Logout Button
