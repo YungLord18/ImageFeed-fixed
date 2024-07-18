@@ -8,6 +8,8 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     
+    private var estimatedProgressObservation: NSKeyValueObservation?
+    
     @IBOutlet private weak var progressView: UIProgressView!
     @IBOutlet private weak var webView: WKWebView!
     
@@ -29,8 +31,12 @@ final class WebViewViewController: UIViewController {
         
         let request = URLRequest(url: url)
         webView.load(request)
-        
-        updateProgress()
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [.new],
+             changeHandler: { [weak self] _, _ in
+                 self?.updateProgress()
+             })
     }
     
     @IBAction private func didTapBackButton(_ sender: Any?) {

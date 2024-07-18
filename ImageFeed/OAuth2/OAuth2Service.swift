@@ -7,11 +7,13 @@ enum AuthServiceError: Error {
 final class OAuth2Service {
     static let shared = OAuth2Service()
     
-    private init() {}
-    
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
+    private var currentAuthCode: String?
+    private var currentTask: URLSessionDataTask?
+    
+    private init() {}
 }
 
 private extension OAuth2Service {

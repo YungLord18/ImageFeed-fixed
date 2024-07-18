@@ -1,16 +1,38 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     private var label: UILabel?
     let nameLabel = UILabel()
     let loginNameLabel = UILabel()
     let descriptionLabel = UILabel()
     
+    private lazy var profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(systemName: "person.crop.circle.fill")
+        imageView.layer.cornerRadius = 35
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
         
         if let profile = profileService.profile {
             updateProfileDetails(profile: profile)
@@ -72,12 +94,34 @@ final class ProfileViewController: UIViewController {
         logoutButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
     }
     
+    //MARK: - UpdateProfileDetails
+    
     private func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }
         self.nameLabel.text = profile.name
         self.loginNameLabel.text = profile.loginName
         self.descriptionLabel.text = profile.bio
     }
+    
+    //MARK: - UpdateAvatar
+    
+    private func updateAvatar() {
+        guard let profileImageURL = ProfileImageService.shared.avatarURL,
+              let url = URL(string: profileImageURL) else { return }
+        
+        let cache = ImageCache.default
+        cache.clearMemoryCache()
+        cache.clearDiskCache()
+        
+        let processor = RoundCornerImageProcessor(cornerRadius: 35)
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder.jpeg"),
+            options: [.processor(processor), .cacheOriginalImage]
+        )
+    }
+    
     
     //MARK: - Private Func Logout Button
     

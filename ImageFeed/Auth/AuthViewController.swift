@@ -2,7 +2,8 @@ import UIKit
 import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+    func didAuthenticate(_ vc: AuthViewController)
+    func fetchProfile(_ token: String)
 }
 
 final class AuthViewController: UIViewController {
@@ -32,7 +33,17 @@ final class AuthViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "ypBlack")
+        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
+    }
+    
+    private func showAlertError() {
+        let alert = UIAlertController(title: "Что-то пошло не так(",
+                                      message: "Не удалось войти в систему",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+            title: "Ок",
+            style: .default))
+        self.present(alert, animated: true)
     }
 }
 
@@ -41,12 +52,21 @@ extension AuthViewController: WebViewViewControllerDelegate {
         _ vc: WebViewViewController,
         didAuthenticateWithCode code: String
     ) {
-        navigationController?.popViewController(animated: true)
-
-        ProgressHUD.animate()
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
+        UIBlockingProgressHUD.show()
+        delegate?.didAuthenticate(self)
+        oauth2Service.fetchOAuthToken(withCode: code) { [weak self] result in
+            guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
+            switch result {
+            case .success(let token):
+                print("Авторизационный токен получен: \(token)")
+                delegate?.fetchProfile(token)
+            case .failure(let error):
+                print("Ошибка получения токена: \(error.localizedDescription)")
+                self.showAlertError()
+            }
+        }
     }
-    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }

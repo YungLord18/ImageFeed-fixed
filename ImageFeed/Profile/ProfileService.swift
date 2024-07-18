@@ -1,23 +1,13 @@
 import UIKit
 
-// MARK: - Profile Service
-
 final class ProfileService {
     
-    // MARK: - Public Properties
-    
     static let shared = ProfileService()
-    
-    // MARK: - Private Properties
     
     private var task: URLSessionTask?
     private(set) var profile: Profile?
     
-    // MARK: - Initializers
-    
     private init() {}
-    
-    // MARK: - Helper Method
     
     private func createProfileURLRequest(token: String) -> URLRequest? {
         guard let profileURL = URL(string: ProfileConstants.urlProfilePath) else {
@@ -29,7 +19,6 @@ final class ProfileService {
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
     }
-    // MARK: - Fetch Profile
     
     func fetchProfile(
         _ token: String,
