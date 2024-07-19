@@ -23,7 +23,11 @@ final class ProfileImageService {
             return request
         }
     
-    func fetchProfileImageURL(username: String, token: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchProfileImageURL(
+        username: String,
+        token: String,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
         task?.cancel()
         guard let request = createProfileImageURLRequest(username: username, token: token) else {
             completion(.failure(NetworkError.invalidRequest))
@@ -53,13 +57,13 @@ final class ProfileImageService {
                 }
                 do {
                     let userResult = try JSONDecoder().decode(UserResult.self, from: data)
-                    strongSelf.avatarURL = userResult.profileImage.small
+                    strongSelf.avatarURL = userResult.profileImage.large
                     DispatchQueue.main.async {
-                        completion(.success(userResult.profileImage.small))
+                        completion(.success(userResult.profileImage.large))
                         NotificationCenter.default.post(
                             name: ProfileImageService.didChangeNotification,
                             object: strongSelf,
-                            userInfo: ["URL": userResult.profileImage.small])
+                            userInfo: ["URL": userResult.profileImage.large])
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -77,14 +81,21 @@ final class ProfileImageService {
     }
 }
 
+
+
+
+
 struct UserResult: Codable {
     let profileImage: ProfileImageSize
     
     enum CodingKeys: String, CodingKey {
         case profileImage = "profile_image"
     }
+    
+    struct ProfileImageSize: Codable {
+        let large: String
+        
+    }
 }
 
-struct ProfileImageSize: Codable {
-    let small: String
-}
+

@@ -91,7 +91,9 @@
                             <constraint firstAttribute="top" secondItem="0ZD-Gs-GgP" secondAttribute="top" id="l0f-Ng-QVT"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="hwP-Q9-zn2"/>
                     <navigationItem key="navigationItem" id="aRj-hz-eAS"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="0ZD-Gs-GgP" id="Fuw-16-5ad"/>
                         <segue destination="e5d-wv-MiJ" kind="presentation" identifier="ShowSingleImage" id="tMz-03-swO"/>
