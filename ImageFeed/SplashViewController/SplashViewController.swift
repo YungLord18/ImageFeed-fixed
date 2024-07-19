@@ -22,6 +22,12 @@ final class SplashViewController: UIViewController {
             vectorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             vectorImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+        
+        if let token = oauth2TokenStorage.token {
+                    fetchProfile(token)
+                } else {
+                    showAuthenticationScreen()
+                }
     }
     
     override func viewWillAppear(_ animated: Bool) {
