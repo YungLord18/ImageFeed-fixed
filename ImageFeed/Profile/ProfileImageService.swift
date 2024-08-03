@@ -81,10 +81,6 @@ final class ProfileImageService {
     }
 }
 
-
-
-
-
 struct UserResult: Codable {
     let profileImage: ProfileImageSize
     

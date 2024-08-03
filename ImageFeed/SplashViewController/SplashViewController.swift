@@ -1,22 +1,22 @@
 import UIKit
-import ProgressHUD
 
 final class SplashViewController: UIViewController {
-    private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
-    private let oauth2Service = OAuth2Service.shared
-    private let oauth2TokenStorage = OAuth2TokenStorage.shared
+    // MARK: - Private Properties
+    
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let storage = OAuth2TokenStorage.shared
+    
+    // MARK: - ViewDidAppear
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         fetchProfileIfNeeded()
         
         view.backgroundColor = .ypBlack
         
-        let vectorImageView = UIImageView(image: UIImage(named: "splash_screen_logo"))
+        let vectorImageView = UIImageView(image: UIImage(named: "vector_logo"))
         vectorImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(vectorImageView)
         
@@ -24,31 +24,38 @@ final class SplashViewController: UIViewController {
             vectorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             vectorImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-        
-        if let token = oauth2TokenStorage.token {
-            fetchProfile(token)
-        } else {
-            showAuthenticationScreen()
-        }
     }
+
+    // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
     
+    // MARK: - Status BarStyle
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
     
+    // MARK: - Private Methods
+    
     private func switchToTabBarController() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { fatalError("Could not find window scene") }
-        guard let window = windowScene.windows.first else {
-            fatalError("Could not find a window") }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                print(NetworkError.windowSceneError)
+                return
+            }
+            guard let window = windowScene.windows.first else {
+                print(NetworkError.windowError)
+                return
+            }
+            let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+                .instantiateViewController(withIdentifier: "TabBarViewController")
+            window.rootViewController = tabBarController
+            window.makeKeyAndVisible()
+        }
     }
     
     private func showErrorMessage(_ message: String) {
@@ -59,18 +66,11 @@ final class SplashViewController: UIViewController {
         alert.addAction(UIAlertAction(
             title: "OK",
             style: .default))
-        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        
-        if var topController = keyWindow?.rootViewController {
-            while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-            }
-            topController.present(alert, animated: true)
-        }
+        self.present(alert, animated: true)
     }
     
     private func fetchProfileIfNeeded() {
-        if let token = oauth2TokenStorage.token {
+        if let token = storage.token {
             UIBlockingProgressHUD.show()
             fetchProfile(token)
         } else {
@@ -90,6 +90,8 @@ final class SplashViewController: UIViewController {
         present(authViewController, animated: true, completion: nil)
     }
 }
+
+// MARK: - AuthViewControllerDelegate
 
 extension SplashViewController: AuthViewControllerDelegate {
     func fetchProfile(_ token: String) {
@@ -111,32 +113,10 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-    
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchProfileIfNeeded()
-        }
-    }
-    
-    
-    private func fetchOAuthToken(_ token: String) {
-        oauth2Service.fetchOAuthToken(withCode: token) { [weak self] result in
-            UIBlockingProgressHUD.dismiss()
-            guard let self = self else { return }
-            switch result {
-            case .success(let code):
-                self.fetchProfile(code)
-            case .failure:
-                self.showErrorMessage("Что-то пошло не так")
-            }
-        }
-    }
-    
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
         }
     }
 }
