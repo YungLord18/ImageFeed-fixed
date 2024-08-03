@@ -14,7 +14,7 @@ final class SplashViewController: UIViewController {
         
         fetchProfileIfNeeded()
         
-        view.backgroundColor = .black
+        view.backgroundColor = .ypBlack
         
         let vectorImageView = UIImageView(image: UIImage(named: "splash_screen_logo"))
         vectorImageView.translatesAutoresizingMaskIntoConstraints = false

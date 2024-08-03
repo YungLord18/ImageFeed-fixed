@@ -14,6 +14,7 @@ final class ImageListService {
     private var lastLoadedPage: Int?
     private var isLoading: Bool = false
     private var storage = OAuth2TokenStorage.shared
+    private let dateFormatter = ISO8601DateFormatter()
     
     // MARK: - Private Init
     
@@ -64,7 +65,7 @@ final class ImageListService {
                     self.lastLoadedPage = nextPage
                     self.preparePhoto(photoResult: photoResult)
                     NotificationCenter.default.post(
-                        name: ImagesListService.didChangeNotification,
+                        name: ImageListService.didChangeNotification,
                         object: self,
                         userInfo: ["photos": self.photos])
                     self.isLoading = false
@@ -77,6 +78,67 @@ final class ImageListService {
         }
         task.resume()
     }
+    
+    private func preparePhoto(photoResult: [PhotoResult]) {
+        let newPhotos = photoResult.compactMap { item -> Photo? in
+            guard let createdAtString = item.createdAt,
+                  let createdAtDate = dateFormatter.date(from: createdAtString) else {
+                print("Дата создания для фотографии с ID \(item.id) отсутствует или имеет неверный формат.")
+                return nil
+            }
+            return Photo(
+                id: item.id,
+                size: CGSize(width: item.width, height: item.height),
+                createdAt: createdAtDate,
+                welcomeDescription: item.description,
+                thumbImageURL: item.urls.regular,
+                fullImageUrl: item.urls.full,
+                isLiked: item.isLiked)
+        }
+        photos.append(contentsOf: newPhotos)
+    }
+    
+    private func createPhotoRequest(
+        page: Int,
+        token: String) -> URLRequest? {
+            guard let url = URL(string: "\(Constants.defaultBaseURL)/photos?page=\(page)&per_page=10") else
+            { return nil }
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            return request
+        }
+    
+    func changeLike(
+        photoId: String,
+        isLike: Bool,
+        _ completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        
+    }
+    
+    private func updatePhotoLikeStatus(
+        photoId: String,
+        isLiked: Bool
+    ) {
+        DispatchQueue.main.async {
+            if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                let photo = self.photos[index]
+                let newPhoto = Photo(
+                    id: photo.id,
+                    size: photo.size,
+                    createdAt: photo.createdAt,
+                    welcomeDescription: photo.welcomeDescription,
+                    thumbImageURL: photo.thumbImageURL,
+                    fullImageUrl: photo.fullImageUrl,
+                    isLiked: isLiked
+                )
+                self.photos[index] = newPhoto
+            } else {
+                print("Фотография с ID \(photoId) не найдена.")
+            }
+        }
+    }
 }
 
 // MARK: - Struct
@@ -87,13 +149,13 @@ struct Photo {
     let createdAt: Date?
     let welcomeDescription: String?
     let thumbImageURL: String
-    let largeImageURL: String
+    let fullImageUrl: String
     let isLiked: Bool
 }
 
 struct PhotoResult: Decodable {
     let id: String
-    let created_at: String?
+    let createdAt: String?
     let width: Int
     let height: Int
     let description: String?
