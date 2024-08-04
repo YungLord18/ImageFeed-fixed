@@ -141,6 +141,13 @@ final class ImageListService {
     }
 }
 
+extension ImageListService {
+    func clearImageList() {
+        photos.removeAll()
+        lastLoadedPage = nil
+    }
+}
+
 // MARK: - Struct
 
 struct Photo {

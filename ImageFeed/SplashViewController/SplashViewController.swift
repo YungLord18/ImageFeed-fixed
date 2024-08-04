@@ -25,7 +25,7 @@ final class SplashViewController: UIViewController {
             vectorImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {

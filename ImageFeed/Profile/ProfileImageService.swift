@@ -81,6 +81,12 @@ final class ProfileImageService {
     }
 }
 
+extension ProfileImageService {
+    func clearProfileImage() {
+        avatarURL = nil
+    }
+}
+
 struct UserResult: Codable {
     let profileImage: ProfileImageSize
     
