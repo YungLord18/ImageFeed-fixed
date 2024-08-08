@@ -16,13 +16,13 @@ final class SplashViewController: UIViewController {
         
         view.backgroundColor = .ypBlack
         
-        let vectorImageView = UIImageView(image: UIImage(named: "vector_logo"))
-        vectorImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(vectorImageView)
+        let splash_screen_logo = UIImageView(image: UIImage(named: "splash_screen_logo"))
+        splash_screen_logo.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(splash_screen_logo)
         
         NSLayoutConstraint.activate([
-            vectorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            vectorImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            splash_screen_logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splash_screen_logo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     

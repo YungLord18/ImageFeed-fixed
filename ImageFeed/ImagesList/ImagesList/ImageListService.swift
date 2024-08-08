@@ -101,7 +101,7 @@ final class ImageListService {
     private func createPhotoRequest(
         page: Int,
         token: String) -> URLRequest? {
-            guard let url = URL(string: "\(Constants.defaultBaseURL)/photos?page=\(page)&per_page=10") else
+            guard let url = URL(string: "\(String(describing: Constants.defaultBaseURL))/photos?page=\(page)&per_page=10") else
             { return nil }
             var request = URLRequest(url: url)
             request.httpMethod = "GET"

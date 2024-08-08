@@ -18,15 +18,15 @@ final class OAuth2Service {
 
 private extension OAuth2Service {
     func createTokenRequest(withCode code: String) -> URLRequest {
-        var urlComponents = URLComponents(string: Constants.urlComponentsURLString)!
-        urlComponents.queryItems = [
+        var urlComponents = URLComponents(string: Constants.urlComponentsURLString)
+        urlComponents?.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "client_secret", value: Constants.secretKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "code", value: code),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
-        guard let tokenURL = urlComponents.url else {
+        guard let tokenURL = urlComponents?.url else {
             fatalError("Invalid URL components.")
         }
         var tokenRequest = URLRequest(url: tokenURL)
@@ -56,7 +56,7 @@ extension OAuth2Service {
         }
         lastCode = code
         guard 
-            let request = makeOAuthTokenRequest(code: code)
+            makeOAuthTokenRequest(code: code) != nil
         else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
