@@ -114,9 +114,46 @@ final class ImageListService {
         isLike: Bool,
         _ completion: @escaping (Result<Void, Error>) -> Void
     ) {
-        
+        guard let token = storage.token else {
+            completion(.failure(NetworkError.authorizationError))
+            return
+        }
+        let urlString = "\(likePhoto.likePhoto)/\(photoId)/like"
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NetworkError.invalidURL))
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = isLike ? "POST" : "DELETE"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.unknownError))
+                }
+                return
+            }
+            switch httpResponse.statusCode {
+            case 200...299:
+                self.updatePhotoLikeStatus(photoId: photoId, isLiked: isLike)
+                DispatchQueue.main.async {
+                    completion(.success(()))
+                }
+            default:
+                let error = NetworkErrorHandler.handleErrorResponse(statusCode: httpResponse.statusCode)
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+        task.resume()
     }
-    
     private func updatePhotoLikeStatus(
         photoId: String,
         isLiked: Bool

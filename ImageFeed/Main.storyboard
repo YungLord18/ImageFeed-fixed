@@ -45,7 +45,10 @@
                                                         <constraint firstAttribute="width" constant="44" id="ldh-lZ-Nav"/>
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="like_off" backgroundImage="like_on"/>
+                                                    <state key="normal" image="like_off"/>
+                                                    <connections>
+                                                        <action selector="likeButtonClicked:" destination="pZ9-It-hcX" eventType="touchUpInside" id="lLt-bf-DQT"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZ7-qv-kLf" userLabel="Date Label">
                                                     <rect key="frame" x="24" y="196" width="101.5" height="16"/>
@@ -336,7 +339,6 @@
         <image name="auth_screen_logo" width="60" height="60"/>
         <image name="back_button_photo" width="24" height="24"/>
         <image name="like_off" width="42" height="42"/>
-        <image name="like_on" width="42" height="42"/>
         <image name="sharing_button" width="51" height="51"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="ypBlack">

@@ -12,7 +12,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var dateLabel: UILabel!
     
-    @IBAction private func likeButtonClicked() {
+    @IBAction private func likeButtonClicked(_ sender: Any) {
         delegate?.imageListCellDidTapLike(self)
     }
     
@@ -22,7 +22,7 @@ final class ImagesListCell: UITableViewCell {
     }
     
     func setIsLiked(_ isLiked: Bool) {
-        let imageName = isLiked ? "like_button_on" : "like_button_off"
+        let imageName = isLiked ? "like_on" : "like_off"
         likeButton.setImage(UIImage(named: imageName), for: .normal)
     }
     

@@ -22,3 +22,7 @@ enum ProfileConstants {
     static let urlProfilePath = "https://api.unsplash.com/me"
     static let urlUsersPath = "https://api.unsplash.com/users/"
 }
+
+enum likePhoto {
+    static let likePhoto = "https://api.unsplash.com/photos"
+}
