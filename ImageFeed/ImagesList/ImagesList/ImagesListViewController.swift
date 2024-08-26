@@ -164,7 +164,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
-        UIBlockingProgressHUD.show()
+        //UIBlockingProgressHUD.show()
         imageListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -174,7 +174,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             case .failure(let error):
                 print("Не удалось поставить лайк: \(error)")
             }
-            UIBlockingProgressHUD.dismiss()
+            //UIBlockingProgressHUD.dismiss()
         }
     }
 }

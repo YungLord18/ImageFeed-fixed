@@ -101,13 +101,26 @@ final class ImageListService {
     private func createPhotoRequest(
         page: Int,
         token: String) -> URLRequest? {
-            guard let url = URL(string: "\(String(describing: Constants.defaultBaseURL))/photos?page=\(page)&per_page=10") else
-            { return nil }
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            return request
+        let basePath = Constants.defaultBaseURL?.absoluteString ?? "https://api.unsplash.com"
+        let path = "/photos"
+        let queryItems = [
+            URLQueryItem(name: "page", value: "\(page)"),
+            URLQueryItem(name: "per_page", value: "10")
+        ]
+
+        var urlComponents = URLComponents(string: basePath)
+        urlComponents?.path = path
+        urlComponents?.queryItems = queryItems
+
+        guard let url = urlComponents?.url else {
+            return nil
         }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
     
     func changeLike(
         photoId: String,
