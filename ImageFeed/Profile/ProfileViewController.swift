@@ -107,7 +107,7 @@ final class ProfileViewController: UIViewController {
             
             descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
             descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
             logoutButton.widthAnchor.constraint(equalToConstant: 44),
             logoutButton.heightAnchor.constraint(equalToConstant: 44),
@@ -152,9 +152,10 @@ descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.tra
     
     @objc
     private func didTapLogoutButton() {
-        storage.logout()
-        nameLabel.removeFromSuperview()
-        loginNameLabel.removeFromSuperview()
-        descriptionLabel.removeFromSuperview()
+        ProfileLogoutService.shared.logout()
+        //storage.logout()
+        //nameLabel.removeFromSuperview()
+        //loginNameLabel.removeFromSuperview()
+        //descriptionLabel.removeFromSuperview()
     }
 }
