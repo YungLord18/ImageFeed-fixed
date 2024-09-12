@@ -153,9 +153,5 @@ final class ProfileViewController: UIViewController {
     @objc
     private func didTapLogoutButton() {
         ProfileLogoutService.shared.logout()
-        //storage.logout()
-        //nameLabel.removeFromSuperview()
-        //loginNameLabel.removeFromSuperview()
-        //descriptionLabel.removeFromSuperview()
     }
 }
