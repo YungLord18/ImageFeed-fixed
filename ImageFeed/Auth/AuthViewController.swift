@@ -10,25 +10,32 @@ final class AuthViewController: UIViewController {
     
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
-
+    
     weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackButtonAppearance()
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == ShowWebViewSegueIdentifier else {
-            super.prepare(for: segue, sender: sender)
-            return
-        }
-        guard
-            let webViewViewController = segue.destination as? WebViewViewController
-        else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
-        webViewViewController.delegate = self
-    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowWebViewSegueIdentifier {
+            guard
+                let webViewViewController = segue.destination as? WebViewViewController
+            else {
+                assertionFailure("Failed to prepare for \(ShowWebViewSegueIdentifier)")
+                return
+            }
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
+            webViewViewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
+
     private func setupBackButtonAppearance() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")

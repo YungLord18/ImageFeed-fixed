@@ -180,7 +180,7 @@
                                     <action selector="didTapSharingButton:" destination="e5d-wv-MiJ" eventType="touchUpInside" id="BMx-q9-mIs"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jr-ZT-3WK" userLabel="Back Button">
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="nav_back_button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Jr-ZT-3WK" userLabel="Back Button">
                                 <rect key="frame" x="9" y="9" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="DhQ-dK-ByG"/>
@@ -233,6 +233,7 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vu7-Oi-9EG">
                                 <rect key="frame" x="16" y="724" width="382" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="zRA-qp-XRk"/>
                                 </constraints>
