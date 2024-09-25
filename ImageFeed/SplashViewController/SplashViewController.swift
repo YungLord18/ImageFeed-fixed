@@ -2,13 +2,9 @@ import UIKit
 
 final class SplashViewController: UIViewController {
     
-    // MARK: - Private Properties
-    
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let storage = OAuth2TokenStorage.shared
-    
-    // MARK: - ViewDidAppear
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -16,30 +12,24 @@ final class SplashViewController: UIViewController {
         
         view.backgroundColor = .ypBlack
         
-        let splash_screen_logo = UIImageView(image: UIImage(named: "splash_screen_logo"))
-        splash_screen_logo.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(splash_screen_logo)
+        let vectorImageView = UIImageView(image: UIImage(named: "vector_logo"))
+        vectorImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(vectorImageView)
         
         NSLayoutConstraint.activate([
-            splash_screen_logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            splash_screen_logo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            vectorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            vectorImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-    
-    // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    // MARK: - Status BarStyle
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-    
-    // MARK: - Private Methods
     
     private func switchToTabBarController() {
         DispatchQueue.main.async {
@@ -90,8 +80,6 @@ final class SplashViewController: UIViewController {
         present(authViewController, animated: true, completion: nil)
     }
 }
-
-// MARK: - AuthViewControllerDelegate
 
 extension SplashViewController: AuthViewControllerDelegate {
     func fetchProfile(_ token: String) {

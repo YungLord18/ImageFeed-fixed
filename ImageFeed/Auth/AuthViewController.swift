@@ -1,11 +1,6 @@
 import UIKit
 import ProgressHUD
 
-protocol AuthViewControllerDelegate: AnyObject {
-    func didAuthenticate(_ vc: AuthViewController)
-    func fetchProfile(_ token: String)
-}
-
 final class AuthViewController: UIViewController {
     
     private let ShowWebViewSegueIdentifier = "ShowWebView"
@@ -23,7 +18,7 @@ final class AuthViewController: UIViewController {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
             else {
-                assertionFailure("Failed to prepare for \(ShowWebViewSegueIdentifier)")
+                print("Не удалось подготовиться к \(ShowWebViewSegueIdentifier)")
                 return
             }
             let authHelper = AuthHelper()
@@ -40,13 +35,14 @@ final class AuthViewController: UIViewController {
         navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_back_button")
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_back_button")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
+        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "ypBlack")
     }
     
     private func showAlertError() {
-        let alert = UIAlertController(title: "Что-то пошло не так(",
-                                      message: "Не удалось войти в систему",
-                                      preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
         alert.addAction(UIAlertAction(
             title: "Ок",
             style: .default))
