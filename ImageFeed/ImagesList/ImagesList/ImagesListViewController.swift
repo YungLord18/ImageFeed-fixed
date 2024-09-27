@@ -2,7 +2,11 @@ import UIKit
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
     
+//MARK: - IB Outlet
+    
     @IBOutlet var tableView: UITableView!
+    
+//MARK: - Public Properties
     
     var photos: [Photo] = []
     
@@ -14,9 +18,13 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         return dateFormatter
     }()
     
+//MARK: - Private Properties
+    
     private var presenter: ImagesListPresenterProtocol?
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
 
+//MARK: - Override Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
@@ -41,6 +49,8 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
             super.prepare(for: segue, sender: sender)
         }
     }
+    
+//MARK: - Public Methods
     
     func setupTableView() {
         tableView.delegate = self
@@ -77,6 +87,8 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
     }
 }
 
+//MARK: - UITableViewDelegate
+
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
@@ -106,6 +118,8 @@ extension ImagesListViewController: UITableViewDelegate {
     }
 }
 
+//MARK: - UITableViewDataSource
+
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(
         _ tableView: UITableView,
@@ -134,6 +148,8 @@ extension ImagesListViewController: UITableViewDataSource {
             return cell
         }
 }
+
+//MARK: - ImagesListCellDelegate
 
 extension ImagesListViewController: ImagesListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {

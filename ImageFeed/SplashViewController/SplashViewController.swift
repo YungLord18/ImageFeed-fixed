@@ -2,9 +2,13 @@ import UIKit
 
 final class SplashViewController: UIViewController {
     
+//MARK: - Private Properties
+    
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let storage = OAuth2TokenStorage.shared
+    
+//MARK: - Override Methods
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -30,6 +34,8 @@ final class SplashViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
+    
+//MARK: - Private Methods
     
     private func switchToTabBarController() {
         DispatchQueue.main.async {
@@ -80,6 +86,8 @@ final class SplashViewController: UIViewController {
         present(authViewController, animated: true, completion: nil)
     }
 }
+
+//MARK: - AuthViewControllerDelegate
 
 extension SplashViewController: AuthViewControllerDelegate {
     func fetchProfile(_ token: String) {

@@ -6,15 +6,21 @@ enum AuthServiceError: Error {
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
+
+//MARK: - Private Properties
     
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
     private var currentAuthCode: String?
     private var currentTask: URLSessionDataTask?
+
+//MARK: - Private Initializers
     
     private init() {}
 }
+
+//MARK: - Private OAuth2Service
 
 private extension OAuth2Service {
     func createTokenRequest(withCode code: String) -> URLRequest {
