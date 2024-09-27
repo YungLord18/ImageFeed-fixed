@@ -2,7 +2,7 @@ import UIKit
 
 final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
     
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     
     var photos: [Photo] = []
     
@@ -42,7 +42,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         }
     }
     
-    private func setupTableView() {
+    func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
     }

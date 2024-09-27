@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - Struct
+
 struct AuthConfiguration {
     let accessKey: String
     let secretKey: String
